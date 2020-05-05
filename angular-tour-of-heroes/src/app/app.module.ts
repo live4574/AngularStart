@@ -6,7 +6,8 @@ import { HeroesComponent } from './heroes/heroes.component';
 
 import { FormsModule} from '@angular/forms';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
-import { MessagesComponent } from './messages/messages.component'; //<--NgModel은 이 패키지가 제공.
+import { MessagesComponent } from './messages/messages.component';
+import { AppRoutingModule } from './app-routing.module'; //<--NgModel은 이 패키지가 제공.
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { MessagesComponent } from './messages/messages.component'; //<--NgModel�
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
