@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Hero } from '../hero';
 
 import { HeroService } from '../hero.service';
-import {MessageService} from '../message.service';
 
 @Component({
   selector: 'app-heroes',
@@ -15,15 +14,6 @@ export class HeroesComponent implements OnInit {
   //heroes =HEROES;
   
   heroes: Hero[];
-
-  selectedHero:Hero;
-  
-  onSelect(hero:Hero):void{
-    this.selectedHero=hero;
-    this.messageService.add(`HeroService: Selected hero id=${hero.id}`);
-    
-  }
-
   
   getHeroes(): void{
     this.heroService.getHeroes().subscribe(heroes=> this.heroes=heroes);
@@ -31,7 +21,6 @@ export class HeroesComponent implements OnInit {
 
   constructor(
     private heroService: HeroService,
-    private messageService: MessageService
   ) { }
     //컴포넌트의 생성자는 생성자로 받은 인자를 
     //클래스 프로퍼티로 연결하는 정도로 간단하게 유지하는 것이 좋습니다. 
