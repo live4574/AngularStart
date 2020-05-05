@@ -4,11 +4,16 @@ import {HEROES } from './mock-heroees';
 import {Observable, of } from 'rxjs';
 import {MessageService } from './message.service';
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HeroService {
   
+  private heroesUrl='api/heroes';
+  //웹 API 형식의 URL로 사용
+
   getHeroes() : Observable<Hero[]>{
     //TODO: 메시지는 히어로 데이터를 가져온 _후에_ 보내야 합니다.
     this.messageService.add('HeroService: fetched heroes');
@@ -27,11 +32,24 @@ export class HeroService {
 
   //이렇게 구현하면 나중에 getHero()가 실제 Http 요청을 보내도록 수정하더라도 이함수를 호출하는 
   //HeroDetailComponent는 영향을 받지 않음.
-  
 
-  constructor(private messageService: MessageService) { }
+
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService) { }
   //서비스 안에 서비스 가 존재하는 경우.
   //MessageService는 HeroService에 의존성으로 주입되고, 
   //HeroService는 다시 HeroesComponent에 의존성으로 주입.
+  
+  private log(message:string){
+    this.messageService.add(`HeroService: ${message}`);
+  }
+  //HeroService에서 보내는 메시지는 MessageService가 화면에 표시
 
+  //heroesUrl을 :base:/collectionName과 같은 형태로 정의.
+  //이 주소는 서버의 리소스 위치에 따라 달라질 수 있으며
+  //이 주소에서 base는 어떤 종류의 요청인지 구별하는 변수이고,
+  //collectionName은 in-memory-data-service.ts 파일에 있는
+  //콜렉션을 구별하는 변수.
+  
 }

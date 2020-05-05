@@ -13,7 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component'; //<--NgMod
 import { HttpClientModule } from '@angular/common/http';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import {InMemoryDataService } from './in-memory-data.service';
+import { InMemoryDataService }  from './in-memory-data.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import {InMemoryDataService } from './in-memory-data.service';
     //서버의 응답을 흉내냅니다.
     //실제 서버가 준비되면 이 부분을 제거하면 됩니다.
     HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService,{dataEncapsulation:false}
+      InMemoryDataService, { dataEncapsulation: false }
     )
     //forRoot() 메소드는 InMemroyDataService 클래스를 인자로 받아서
     //인-메모리 데이터베이스의 실행환경을 구성하는 메소드입니다.
