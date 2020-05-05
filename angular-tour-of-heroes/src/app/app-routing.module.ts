@@ -4,11 +4,17 @@ import {RouterModule, Routes } from '@angular/router';
 
 import { HeroesComponent } from './heroes/heroes.component';
 
+import { DashboardComponent } from './dashboard/dashboard.component';
+
 const routes : Routes =[
-  {path: 'heroes', component: HeroesComponent}
+  {path: 'heroes', component: HeroesComponent},
+  {path: 'dashboard', component: DashboardComponent},
+  {path:'', redirectTo: '/dashboard', pathMatch:'full'},
 ];
 //path: 브라우저 주소로 주소표시줄에 있는 URL과 매칭될 문자열을 지정
 //component: 라우터가 생성하고 화면에 표시할 컴포넌트를 지정
+
+//브라우저의 URL이 빈 문자열일 때 './dashboard' 주소로 이동하도록 설정한것.
 
 @NgModule({
   //CommonModule을 로드했던 부분이나 declartions 배열은 필요없기
@@ -34,7 +40,7 @@ const routes : Routes =[
 
   //그리고 앱에도 Router Module을 사용할 수 있도록 AppRoutingModule의
   //export 배열을 다음과 같이 지정.
-  
+
 })
 
 export class AppRoutingModule { }
