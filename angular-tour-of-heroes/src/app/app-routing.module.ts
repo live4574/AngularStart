@@ -6,11 +6,15 @@ import { HeroesComponent } from './heroes/heroes.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import {HeroDetailComponent } from './hero-detail/hero-detail.component';
+
 const routes : Routes =[
   {path: 'heroes', component: HeroesComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path:'', redirectTo: '/dashboard', pathMatch:'full'},
+  {path:'detail/:id', component: HeroDetailComponent},
 ];
+
 //path: 브라우저 주소로 주소표시줄에 있는 URL과 매칭될 문자열을 지정
 //component: 라우터가 생성하고 화면에 표시할 컴포넌트를 지정
 
@@ -22,6 +26,7 @@ const routes : Routes =[
   imports: [
     RouterModule.forRoot(routes)
   ],
+
   //@NgModule에 메타데이터를 지정하면 모듈이 생성될때
   //라우터를 초기화하면서  브라우저의 주소가 변환되는 것을 감지.
 
