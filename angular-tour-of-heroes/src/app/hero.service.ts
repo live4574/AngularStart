@@ -6,6 +6,8 @@ import {MessageService } from './message.service';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import {catchError, map, tap } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,10 +18,16 @@ export class HeroService {
 
   getHeroes() : Observable<Hero[]>{
     //TODO: 메시지는 히어로 데이터를 가져온 _후에_ 보내야 합니다.
-    this.messageService.add('HeroService: fetched heroes');
-    return of(HEROES);
+    //this.messageService.add('HeroService: fetched heroes');
+    //return of(HEROES);
+    //히어로 목록 목 데이터를 Observable<Hero[]> 타입으로 반환하기위해
+    //RxJs of()함수를 사용해왔지만
+    //HttpClient로 동작하도록 다음과 같이 수정.
+    return this.http.get<Hero[]>(this.heroesUrl).pipe(catchError(this.handleError<Hero[]>('getHeroes',[])));
   }
-  
+  //observable이 실패시 실행됨.(catchError() 연산자)
+  //에러가 발생했을 때 실행할 에러 핸들러 함수를 인자로 전달.
+
   getHero(id:number): Observable<Hero>{
     //TODO:이 메시지는 서버에서 히어로 정보를 가져온 _후에_ 보내야 합니다.
     this.messageService.add(`HeroService: fetched hero id=${id}`)
@@ -52,4 +60,22 @@ export class HeroService {
   //collectionName은 in-memory-data-service.ts 파일에 있는
   //콜렉션을 구별하는 변수.
   
+
+  private handleError<T> (operation = 'operation', result?:T){
+    return (error: any): Observable<T> => {
+      //TODO:리모트 서버로 에러 메시지 보내기
+      console.error(error);//지금은 콘솔에 로그를 출력.
+      
+      //TODO: 사용자가 이해할 수 있는 형태로 변환하기
+      this.log(`${operation} failed: ${error.message}`);
+
+      //애플리케이션 로직이 끊기지 않도록 기본값으로 받은 객체를 반환.
+      return of(result as T);
+    };
+  }
+  //에러를 콘솔에 출력하고 나면 핸드러 함수는 사용자가 이해하기 쉬운 형식의
+  //메시지를 반환하면서 앱이 중단되지 ㅇ낞도록 기본값을 반환
+  //서비스의 각 메소드는 서로 다른 타입으로 Observable 결과를 반환하기 때문에
+  //handleError() 메소드는 각 메소드의 기본값을 인자로 받을 수 있도록 정의
+
 }
