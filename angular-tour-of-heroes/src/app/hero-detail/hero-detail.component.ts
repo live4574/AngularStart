@@ -33,6 +33,11 @@ export class HeroDetailComponent implements OnInit {
     //location은 브라우저 제어하기 위해 Angular가 제공하는 서비스.
     
     ngOnInit(): void {
-  }
+      this.getHero();
+    }
+    getHero():void{
+      const id = +this.route.snapshot.paramMap.get('id');
+      this.heroService.getHero(id).subscribe(hero=>this.hero = hero);
+    }
 
 }
