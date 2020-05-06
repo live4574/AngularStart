@@ -44,6 +44,22 @@ export class HeroesComponent implements OnInit {
       this.heroes.push(hero);
     })
   }
-  
-  
+
+  delete(hero:Hero):void{
+    this.heroes=this.heroes.filter(h=>h !== hero);
+    this.heroService.deleteHero(hero).subscribe();
+    //heroService.delete 메소드를 실행하고
+    //받은 Observable로는 아무것도 하지않음.
+    //함수를 실행하기 위해 단순히 구독만 할뿐임.
+
+    //subscribe()를 생략하면 
+    //서버로 제거 요청을 보내지 않습니다!
+    // 왜냐하면 아무도 구독하지 않은 Observable은 
+    //아무 동작도 하지 않기 때문입니다!
+  }
+  //히어로를 제거하는 기능은 HeroService가 담당하지만,
+  //변경된 내용으로 화면을 갱신하는 것은 컴포넌트가 처리해야함
+  //그래서 컴포넌트에 정의된 delete 메소드는 서버로 보내는 요청이
+  //성공할 것으로 간주하고 이 히어로를 목록에서 바로 제거함.
+
 }
