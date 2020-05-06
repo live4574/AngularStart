@@ -15,7 +15,7 @@ export class HeroService {
   
   private heroesUrl='api/heroes';
   //웹 API 형식의 URL로 사용
-
+  
   getHeroes() : Observable<Hero[]>{
     //TODO: 메시지는 히어로 데이터를 가져온 _후에_ 보내야 합니다.
     //this.messageService.add('HeroService: fetched heroes');
@@ -23,17 +23,24 @@ export class HeroService {
     //히어로 목록 목 데이터를 Observable<Hero[]> 타입으로 반환하기위해
     //RxJs of()함수를 사용해왔지만
     //HttpClient로 동작하도록 다음과 같이 수정.
-    return this.http.get<Hero[]>(this.heroesUrl).pipe(catchError(this.handleError<Hero[]>('getHeroes',[])));
+    return this.http.get<Hero[]>(this.heroesUrl)
+    .pipe(tap(_=> this.log('fetched heroes')),catchError(this.handleError<Hero[]>('getHeroes',[])));
   }
   //observable이 실패시 실행됨.(catchError() 연산자)
   //에러가 발생했을 때 실행할 에러 핸들러 함수를 인자로 전달.
 
+  //**GET : id에 해당하는 히어로 데이터 가져오기. 존재하지 않으면 404를 반환합니다. */
   getHero(id:number): Observable<Hero>{
-    //TODO:이 메시지는 서버에서 히어로 정보를 가져온 _후에_ 보내야 합니다.
+    /*//TODO:이 메시지는 서버에서 히어로 정보를 가져온 _후에_ 보내야 합니다.
     this.messageService.add(`HeroService: fetched hero id=${id}`)
     //id에 사용된 역따옴표`는 템플릿 리터럴을 표현하는 Javascript 문법
 
     return of(HEROES.find(hero=>hero.id===id));
+    */
+   const url= `{this.heroesUrl}/${id}`;
+   return this.http.get<Hero>(url)
+   .pipe(tap(_=> this.log(`fetched hero id=${id}`)),
+   catchError(this.handleError<Hero>(`getHero id=${id}`)));
   }
   //getHero 함수도 비슷하게 비동기로 동작.
   //히어로의 목 데이터 하나를 Observable로 반환하기 위해 RxJs가 제공하는 of()함수를 사용.
@@ -60,15 +67,20 @@ export class HeroService {
   //collectionName은 in-memory-data-service.ts 파일에 있는
   //콜렉션을 구별하는 변수.
   
+  //HTTP 요청이 실패한 경우를 처리
+  //로직 흐름은 그대로 유지
+  //@param operation - 실패한 동작의 이름
+  //@param result - 기본값으로 반환할 객체
 
-  private handleError<T> (operation = 'operation', result?:T){
-    return (error: any): Observable<T> => {
-      //TODO:리모트 서버로 에러 메시지 보내기
-      console.error(error);//지금은 콘솔에 로그를 출력.
+  private handleError<T> (operation = 'operation', result? : T){
+    return ( error : any ) : Observable<T> => {
+      //TODO: 리모트 서버로 에러 메시지 보내기
+      console.error(error);
+      //지금은 콘솔에 로그 출력
       
       //TODO: 사용자가 이해할 수 있는 형태로 변환하기
       this.log(`${operation} failed: ${error.message}`);
-
+      
       //애플리케이션 로직이 끊기지 않도록 기본값으로 받은 객체를 반환.
       return of(result as T);
     };
