@@ -61,5 +61,5 @@ export class HeroesComponent implements OnInit {
   //변경된 내용으로 화면을 갱신하는 것은 컴포넌트가 처리해야함
   //그래서 컴포넌트에 정의된 delete 메소드는 서버로 보내는 요청이
   //성공할 것으로 간주하고 이 히어로를 목록에서 바로 제거함.
-
+  
 }

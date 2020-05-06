@@ -131,5 +131,18 @@ export class HeroService {
     );
   }
   //URL은 리소스 URL 뒤에 제거하려는 히어로의 id가 붙은 형태.
-  
+
+  /*GET: 입력된 문구가 이름에 포함된 히어로 목록을 반환합니다.*/
+  searchHerores(term: string):Observable<Hero[]>{
+    if(!term.trim()){
+      //입력된 내용이 없으면 빈 배열을 반환.
+      return of([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`)
+      .pipe(tap(x=>x.length?
+      this.log(`found heroes matching "${term}"`) :
+      this.log(`no heroes matching "${term}"`)),
+      catchError(this.handleError<Hero[]>('searchHeores',[]))
+      );
+  }
 }
