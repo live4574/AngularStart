@@ -90,4 +90,22 @@ export class HeroService {
   //서비스의 각 메소드는 서로 다른 타입으로 Observable 결과를 반환하기 때문에
   //handleError() 메소드는 각 메소드의 기본값을 인자로 받을 수 있도록 정의
 
+  updateHero(hero:Hero):Observable<any>{
+    return this.http.put(this.heroesUrl,hero,this.httpOptions)
+    .pipe(tap(_ => this.log(`updated hero id=${hero.id}`)),
+      catchError(this.handleError<any>('updateHero'))
+    );
+  }
+  //HttpClien.put() 메소드는 3개의 인자를 받습니다.
+  // URL
+  // 수정할 데이터(수정된 히어로 데이터)
+  // 옵션
+
+  //이번 예제에서 사용하는 웹 API에는 헤더가 존재함.
+  //이 헤더는 HeroService 안에 httpOptions 프로퍼티에 저장하고
+  //상수처럼 사용할 것.
+  httpOptions={
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+  };
+    
 }
