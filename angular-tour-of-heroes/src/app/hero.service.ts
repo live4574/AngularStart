@@ -16,38 +16,13 @@ export class HeroService {
   private heroesUrl='api/heroes';
   //웹 API 형식의 URL로 사용
   
-  getHeroes() : Observable<Hero[]>{
-    //TODO: 메시지는 히어로 데이터를 가져온 _후에_ 보내야 합니다.
-    //this.messageService.add('HeroService: fetched heroes');
-    //return of(HEROES);
-    //히어로 목록 목 데이터를 Observable<Hero[]> 타입으로 반환하기위해
-    //RxJs of()함수를 사용해왔지만
-    //HttpClient로 동작하도록 다음과 같이 수정.
-    return this.http.get<Hero[]>(this.heroesUrl)
-    .pipe(tap(_=> this.log('fetched heroes')),catchError(this.handleError<Hero[]>('getHeroes',[])));
-  }
-  //observable이 실패시 실행됨.(catchError() 연산자)
-  //에러가 발생했을 때 실행할 에러 핸들러 함수를 인자로 전달.
-
-  //**GET : id에 해당하는 히어로 데이터 가져오기. 존재하지 않으면 404를 반환합니다. */
-  getHero(id:number): Observable<Hero>{
-    /*//TODO:이 메시지는 서버에서 히어로 정보를 가져온 _후에_ 보내야 합니다.
-    this.messageService.add(`HeroService: fetched hero id=${id}`)
-    //id에 사용된 역따옴표`는 템플릿 리터럴을 표현하는 Javascript 문법
-
-    return of(HEROES.find(hero=>hero.id===id));
-    */
-   const url= `{this.heroesUrl}/${id}`;
-   return this.http.get<Hero>(url)
-   .pipe(tap(_=> this.log(`fetched hero id=${id}`)),
-   catchError(this.handleError<Hero>(`getHero id=${id}`)));
-  }
-  //getHero 함수도 비슷하게 비동기로 동작.
-  //히어로의 목 데이터 하나를 Observable로 반환하기 위해 RxJs가 제공하는 of()함수를 사용.
-
-  //이렇게 구현하면 나중에 getHero()가 실제 Http 요청을 보내도록 수정하더라도 이함수를 호출하는 
-  //HeroDetailComponent는 영향을 받지 않음.
-
+  
+  //이번 예제에서 사용하는 웹 API에는 헤더가 존재함.
+  //이 헤더는 HeroService 안에 httpOptions 프로퍼티에 저장하고
+  //상수처럼 사용할 것.
+  httpOptions={
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+  };
 
   constructor(
     private http: HttpClient,
@@ -56,6 +31,74 @@ export class HeroService {
   //MessageService는 HeroService에 의존성으로 주입되고, 
   //HeroService는 다시 HeroesComponent에 의존성으로 주입.
   
+  /**GEt: 서버에서 히어로 목록 가져오기 */
+  getHeroes() : Observable<Hero[]>{
+    //TODO: 메시지는 히어로 데이터를 가져온 _후에_ 보내야 합니다.
+    //this.messageService.add('HeroService: fetched heroes');
+    //return of(HEROES);
+    //히어로 목록 목 데이터를 Observable<Hero[]> 타입으로 반환하기위해
+    //RxJs of()함수를 사용해왔지만
+    //HttpClient로 동작하도록 다음과 같이 수정.
+    return this.http.get<Hero[]>(this.heroesUrl)
+    .pipe(
+      tap(_=> this.log('fetched heroes')),
+      catchError(this.handleError<Hero[]>('getHeroes',[]))
+      );
+  }
+  //observable이 실패시 실행됨.(catchError() 연산자)
+  //에러가 발생했을 때 실행할 에러 핸들러 함수를 인자로 전달.
+
+  /** GET: id에 해당하는 히어로 데이터를 가져옵니다. 존재하지 않으면 `undefined`를 반환합니다. */
+  getHeroNo404<Hero>(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/?id=${id}`;
+    return this.http.get<Hero[]>(url)
+      .pipe(
+        map(heroes => heroes[0]), // 배열에 있는 항목 중 하나만 반환합니다.
+        tap(h => {
+          const outcome = h ? `fetched` : `did not find`;
+          this.log(`${outcome} hero id=${id}`);
+        }),
+        catchError(this.handleError<Hero>(`getHero id=${id}`))
+      );
+  }
+  
+  //**GET : id에 해당하는 히어로 데이터 가져오기. 존재하지 않으면 404를 반환합니다. */
+  getHero(id:number): Observable<Hero>{
+    /*//TODO:이 메시지는 서버에서 히어로 정보를 가져온 _후에_ 보내야 합니다.
+    this.messageService.add(`HeroService: fetched hero id=${id}`)
+    //id에 사용된 역따옴표`는 템플릿 리터럴을 표현하는 Javascript 문법
+
+    return of(HEROES.find(hero=>hero.id===id));
+    */
+   const url= `${this.heroesUrl}/${id}`;
+   return this.http.get<Hero>(url)
+    .pipe(tap(_ => this.log(`fetched hero id=${id}`)),
+    catchError(this.handleError<Hero>(`getHero id=${id}`))
+   );
+  }
+  
+  //getHero 함수도 비슷하게 비동기로 동작.
+  //히어로의 목 데이터 하나를 Observable로 반환하기 위해 RxJs가 제공하는 of()함수를 사용.
+
+  //이렇게 구현하면 나중에 getHero()가 실제 Http 요청을 보내도록 수정하더라도 이함수를 호출하는 
+  //HeroDetailComponent는 영향을 받지 않음.
+
+    
+  /*GET: 입력된 문구가 이름에 포함된 히어로 목록을 반환합니다.*/
+  searchHeroes(term: string):Observable<Hero[]>{
+    if(!term.trim()){
+      //입력된 내용이 없으면 빈 배열을 반환.
+      return of([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`)
+      .pipe(tap(x=>x.length?
+      this.log(`found heroes matching "${term}"`) :
+      this.log(`no heroes matching "${term}"`)),
+      catchError(this.handleError<Hero[]>('searchHeores',[]))
+      );
+  }
+
+
   private log(message:string){
     this.messageService.add(`HeroService: ${message}`);
   }
@@ -101,12 +144,6 @@ export class HeroService {
   // 수정할 데이터(수정된 히어로 데이터)
   // 옵션
 
-  //이번 예제에서 사용하는 웹 API에는 헤더가 존재함.
-  //이 헤더는 HeroService 안에 httpOptions 프로퍼티에 저장하고
-  //상수처럼 사용할 것.
-  httpOptions={
-    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-  };
   
   //**POST: 서버에 새로운 히어로를 추가합니다. */
   addHero(hero: Hero): Observable<Hero>{
@@ -132,17 +169,5 @@ export class HeroService {
   }
   //URL은 리소스 URL 뒤에 제거하려는 히어로의 id가 붙은 형태.
 
-  /*GET: 입력된 문구가 이름에 포함된 히어로 목록을 반환합니다.*/
-  searchHeroes(term: string):Observable<Hero[]>{
-    if(!term.trim()){
-      //입력된 내용이 없으면 빈 배열을 반환.
-      return of([]);
-    }
-    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`)
-      .pipe(tap(x=>x.length?
-      this.log(`found heroes matching "${term}"`) :
-      this.log(`no heroes matching "${term}"`)),
-      catchError(this.handleError<Hero[]>('searchHeores',[]))
-      );
-  }
+ 
 }
