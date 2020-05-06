@@ -119,4 +119,17 @@ export class HeroService {
   //HttpClient.post() 대신 put()을 실행
   //이 함수를 실행하면 새로운 히어로에 대한 id가 생성되어야하고,
   //Observable<Hero>타입으로 반환됨.
+
+  //**DeLETE: 서버에서 히어로를 제거합니다 */
+  deleteHero(hero:Hero | number): Observable<Hero>{
+    const id = typeof hero ==='number' ? hero : hero.id;
+    const url = `${this.heroesUrl}/${id}`;
+
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted hero id=${id}`)),
+      catchError(this.handleError<Hero>('deleteHero'))
+    );
+  }
+  //URL은 리소스 URL 뒤에 제거하려는 히어로의 id가 붙은 형태.
+  
 }
