@@ -16,7 +16,8 @@ export class HeroesComponent implements OnInit {
   heroes: Hero[];
   
   getHeroes(): void{
-    this.heroService.getHeroes().subscribe(heroes=> this.heroes=heroes);
+    this.heroService.getHeroes()
+    .subscribe(heroes=> this.heroes=heroes);
   }
 
   constructor(
@@ -34,6 +35,15 @@ export class HeroesComponent implements OnInit {
   //ngOnInit은 라이프싸이클 후킹 함수 입니다. 
   //Angular는 컴포넌트를 생성한 직후에 ngOnInit를 호출합니다. 
   //그래서 컴포넌트를 초기화하는 로직은 이 메소드에 작성하는 것이 좋습니다.
+
+  add(name : string):void{
+    name= name.trim();
+    if(!name){ return;}
+    this.heroService.addHero({name} as Hero)
+    .subscribe(hero=>{
+      this.heroes.push(hero);
+    })
+  }
   
   
 }
