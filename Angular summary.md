@@ -1,6 +1,8 @@
--Angular의 컨셉
+Angular Summary
+=====================
+#Angular의 컨셉
 
--Angular 개요
+##Angular 개요
 
 HTML+Typescript                             	클라이언트 어플리케이션 개발
 
@@ -52,7 +54,7 @@ Router 서비스를 통해 이 뷰들을 전환하며 페이지를 이동할 수 있음.
 
 
 
--모듈
+##모듈
 
 
 Angular는 Javascript와(ES2015) 모듈과 다르며 서로 보완적인 Ngmodule 체계를 
@@ -88,7 +90,7 @@ Javascript 모듈과 비슷하게 Ngmodule도 다른 Ngmodule을 불러오거나 다른 Ngmoduel을
 
 
 
--컴포넌트
+##컴포넌트
 
 Angular 애플리케이션에는 페이지 DOM의 최상위에 위치하는 컴포넌트가 존재하는데,
 
