@@ -48,4 +48,11 @@ export class HeroDetailComponent implements OnInit {
       this.location.back();
     }
     
+    save():void{
+      this.heroService.updateHero(this.hero)
+      .subscribe(()=> this.goBack());
+    }
+    //HeroService.updateHero() 메소드를 실행해서 변경된 내용을
+    //저장하고 이전화면으로 돌아가는 동작 실행.
+    
 }
