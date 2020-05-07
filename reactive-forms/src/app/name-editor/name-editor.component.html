@@ -2,3 +2,11 @@
     Name:
     <input type="text" [formControl]="name">
 </label>
+
+<p>
+    value:{{name.value}}
+</p>
+
+<p>
+    <button (click)="updateName()">updateName</button>
+</p>
