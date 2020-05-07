@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { FormGroup , FormControl } from '@angular/forms';
+
 export type EditorType = 'name' | 'profile';
 
 @Component({
