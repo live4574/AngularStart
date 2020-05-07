@@ -132,3 +132,13 @@ Angular 컴포넌트는 컴포넌트 클래스에 @Component() 데코레이터를 사용해
                                                                                                                                 데이터를 처리하는 로직은 서비스에 집중
 데이터를 처리하는 로직은 서비스에게 맡겨두는 것이 좋습니다.
 
+##Reference
+
+튜토리얼주소
+https://angular.kr/start/start-data
+
+기본구조 주소
+https://poiemaweb.com/angular-component-basics
+
+웹 앱 개발자
+https://gongcha.tistory.com/48
