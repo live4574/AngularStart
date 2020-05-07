@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup , FormControl } from '@angular/forms';
+import { FormGroup , FormControl, FormArray } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./profile-editor.component.css']
 })
 
-export class ProfileEditorComponent implements OnInit {
+export class ProfileEditorComponent {
 
   profileForm= this.fb.group({
     firstName: ['', Validators.required],
@@ -19,7 +19,10 @@ export class ProfileEditorComponent implements OnInit {
       city: [''],
       state: [''],
       zip : ['']
-    })
+    }),
+    aliases: this.fb.array([
+      this.fb.control('')
+    ])
   });
 
   //폼 컨트롤을 그룹으로 묶음.
@@ -42,6 +45,17 @@ export class ProfileEditorComponent implements OnInit {
   constructor(
     private fb: FormBuilder
   ) { }
+
+  get aliases(){
+    return this.profileForm.get('aliases') as FormArray;
+    //게터함수
+    //폼 배열 안에 있는 폼 컨트롤의 개수에 관계 없이
+    //간단하게 폼컨트롤의 값을 참조할 수 있고, 반복문 작성시도 편리함
+  }
+
+  addAlias(){
+    this.aliases.push(this.fb.control(''));
+  }
 
   ngOnInit() {
   }
