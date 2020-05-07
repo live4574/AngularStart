@@ -221,3 +221,6 @@ https://poiemaweb.com/angular-component-basics
 
 웹 앱 개발자
 https://gongcha.tistory.com/48
+
+알고리즘 학습에 관한 조언
+https://edykim.com/ko/post/advice-on-learning-algorithms/#%ED%91%9C%EC%A4%80-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EC%9E%90%EB%A3%8C
