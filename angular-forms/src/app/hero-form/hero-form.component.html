@@ -1,4 +1,4 @@
-<div class="container">
+<div [hidden]="submitted">
     <h1>Hero Form</h1>
     <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
         {{diagnostic}}
@@ -24,11 +24,13 @@
         </div>
 
         <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
-
+        
         <button type="button" class="btn btn-default" (click)="newHero(); heroForm.reset();">
             NewHero
         </button>
     </form>
+</div>
 
-
+<div [hidden]="!submitted">
+    <h2>Submitted following</h2>
 </div>
