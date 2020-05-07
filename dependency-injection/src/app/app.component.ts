@@ -11,15 +11,12 @@ import {GreetingService } from './greeting.service';
 })
 export class AppComponent {
   greeting:string;
-  greetingService:GreetingService;
 
-  constructor(){
-    //서비스 인스턴스 직접 생성
-    this.greetingService=new GreetingService();
+  constructor(private greetingService: GreetingService){
   }
 
   sayHi(){
-    //서비스의 사용
+    //주입된 서비스의 사용
     this.greeting= this.greetingService.sayHi();
   }
 }
