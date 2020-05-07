@@ -36,7 +36,7 @@
     <button type="submit" [disabled]="!profileForm.valid">Submit</button>
     
     <p>
-        Form value: {{profileForm.value}}
+        Form value: {{profileForm.value | json}}
     </p>
     <p>
         Form Status: {{profileForm.status}}
