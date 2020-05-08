@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatDividerModule} from '@angular/material/divider';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -27,6 +30,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatRadioModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatDividerModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
