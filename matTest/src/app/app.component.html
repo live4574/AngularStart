@@ -19,4 +19,10 @@ mat-form-field, mat-label, input placeholder:
 
 radio button : <mat-radio-button></mat-radio-button>
 
+<br>
 
+<mat-form-field>
+    <mat-icon matPrefix>phone:</mat-icon>
+    <mat-hint>Include area code</mat-hint>
+    <input type="text" matInput [formControl]="myControl">
+</mat-form-field>
