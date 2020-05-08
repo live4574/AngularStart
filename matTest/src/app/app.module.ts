@@ -16,6 +16,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatDatepickerModule,
     MatDividerModule,
     MatExpansionModule,
+    MatGridListModule,
 
   ],
   providers: [],
