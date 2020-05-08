@@ -11,6 +11,8 @@ import {MatInputModule} from '@angular/material/input'
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -24,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSliderModule,
     MatRadioModule,
     MatSelectModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
