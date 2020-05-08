@@ -11,6 +11,7 @@ https://material.angular.io/components/categories
 https://js2prince.tistory.com/entry/Angular-Material
 
 
-## 앵귤러 material 풀 튜토리얼
+## to Test practice comoponent lists 연습할 것들 목록.
 
-https://www.youtube.com/watch?v=jUfEn032IL8
+https://material.angular.io/components/categories
+
